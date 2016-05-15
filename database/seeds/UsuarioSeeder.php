@@ -13,10 +13,10 @@ class UsuarioSeeder extends Seeder
     {
         //
         DB::table('usuarios')->insert([
-            'email' => 'robertty55@gmail.com',
+            'email' => 'prueba@laravel.com',
             'password' => bcrypt('123123'),
-            'nombre' => 'Pedro',
-            'apellido' => 'Lugo',
+            'nombre' => 'Prueba',
+            'apellido' => 'Laravel',
             'tipo_usuario_id' => 1
         ]);
     }
