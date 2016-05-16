@@ -35,7 +35,7 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
   <li>Configurar conexión a base de datos (archivo .env).</li>
   <li>Ejecutar comando "<code>composer install</code>"</li>
   <li>Ejecutar las migraciones "<code>php artisan migrate</code>"</li>
-  <li>Ejecutar los seeders "<code>php artisan db:seeder</code>"</li>
+  <li>Ejecutar los seeders "<code>php artisan db:seed</code>"</li>
   <li>Generar la llave "<code>php artisan key:generate</code>"</li>
 </ol>
 
