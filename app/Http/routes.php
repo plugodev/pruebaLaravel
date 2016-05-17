@@ -116,6 +116,17 @@ Route::post('/responder', [
     'as' => 'responder',
     'middleware' => 'auth'
 ]);
+Route::get('/elegirRespuesta/{id}', [
+    'uses' => 'RespuestaController@getElegirRespuesta',
+    'as' => 'elegirRespuesta',
+    'middleware' => 'auth'
+]);
+
+Route::post('/valorar', [
+    'uses' => 'ValoracionPreguntaController@postValorarPregunta',
+    'as' => 'valorar',
+    'middleware' => 'auth'
+]);
 Route::get('/prueba', function () {
     $respuesta = \App\Respuesta::find(1);
     echo $respuesta->usuario->nombre;

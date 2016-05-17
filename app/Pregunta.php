@@ -21,4 +21,9 @@ class Pregunta extends Model
     {
         return $this->hasMany('App\Respuesta');
     }
+
+    public function valoraciones()
+    {
+        return $this->hasMany('App\ValoracionPregunta');
+    }
 }
