@@ -1,50 +1,66 @@
 $(document).on("click", ".correcta", function (e) {
-    if (!confirm('¿Está seguro de que ésta es la respuesta correcta?')){
+    if (!confirm('¿Está seguro de que ésta es la respuesta correcta?')) {
         e.preventDefault();
     }
     return true;
 });
+$(document).on("click", ".valorar_lista", function (e) {
+    e.preventDefault();
+    new PNotify({
+        title: 'Mensaje',
+        text: 'Ya ha realizado una valoración de ésta pregunta!',
+        type: 'error'
+    });
+});
+$(document).on("click", ".valorar_propia", function (e) {
+    e.preventDefault();
+    new PNotify({
+        title: 'Mensaje',
+        text: 'No puede realizar valoración de una pregunta propia!',
+        type: 'error'
+    });
+});
 $(document).on("click", "#preguntar", function (e) {
     e.preventDefault();
-    if (!confirm('¿Está seguro de realizar ésta pregunta?')){
+    if (!confirm('¿Está seguro de realizar ésta pregunta?')) {
         return;
     }
     $("#form_preguntar").submit();
 });
 $(document).on("click", ".responder", function (e) {
-    if(!confirm('¿Está seguro de responder?')){
+    if (!confirm('¿Está seguro de responder?')) {
         return;
     }
-    pregunta_id=$(this).data("id");
-    respuesta=$(this).closest('div').children('textarea').val();
-    ul=$(this).closest('div').children('ul');
+    pregunta_id = $(this).data("id");
+    respuesta = $(this).closest('div').children('textarea').val();
+    ul = $(this).closest('div').children('ul');
     $.ajax({
-        method:'post',
-        url:urlResponder,
-        data:{pregunta_id:pregunta_id,respuesta:respuesta,_token:token}
+        method: 'post',
+        url: urlResponder,
+        data: {pregunta_id: pregunta_id, respuesta: respuesta, _token: token}
     }).done(function (res) {
         console.log(res);
-        if (res.mensaje){
+        if (res.mensaje) {
             new PNotify({
                 title: 'Mensaje',
                 text: res.mensaje,
                 type: res.type
             });
-            setTimeout(function(){
+            setTimeout(function () {
                 location.reload();
             }, 1000);
         }
     }).error(function (msj) {
         resp = $.parseJSON(msj.responseText);
-        strErrores="<ul>";
+        strErrores = "<ul>";
         $.each(resp, function (k, v) {
-            strErrores+="<li>"+k+"<ul>";
+            strErrores += "<li>" + k + "<ul>";
             $.each(v, function (m, n) {
-                strErrores+="<li>"+n+"</li>";
+                strErrores += "<li>" + n + "</li>";
             });
-            strErrores+="</ul></li>";
+            strErrores += "</ul></li>";
         });
-        strErrores+="</ul>";
+        strErrores += "</ul>";
         new PNotify({
             title: 'Mensaje',
             text: strErrores,
@@ -58,21 +74,21 @@ $(document).on("click", ".valorar", function () {
     $("#modal-valoracion").modal();
 });
 $(document).on("change mouseover", "#valoracion", function () {
-    cantidad=$(this).val();
-    cant=0;
-    strStars="";
-    for(i=0;i<cantidad;i++){
-        if (i==0){
-            strStars+='<i class="fa fa-star-o fa-lg" aria-hidden="true"></i>';
-        }else{
-            strStars+='<i class="fa fa-star-o fa-'+(parseInt(i)+1)+'x" aria-hidden="true"></i>';
+    cantidad = $(this).val();
+    cant = 0;
+    strStars = "";
+    for (i = 0; i < cantidad; i++) {
+        if (i == 0) {
+            strStars += '<i class="fa fa-star-o fa-lg" aria-hidden="true"></i>';
+        } else {
+            strStars += '<i class="fa fa-star-o fa-' + (parseInt(i) + 1) + 'x" aria-hidden="true"></i>';
         }
     }
     $("#estrellas").html(strStars);
 });
 
 $(document).on("click", "#valorar", function (e) {
-    if (!confirm('¿Está seguro de realizar ésta valoración?')){
+    if (!confirm('¿Está seguro de realizar ésta valoración?')) {
         e.preventDefault();
     }
     return true;

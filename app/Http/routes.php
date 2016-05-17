@@ -127,7 +127,10 @@ Route::post('/valorar', [
     'as' => 'valorar',
     'middleware' => 'auth'
 ]);
+Route::get('/usuarios/top', [
+    'uses' => 'ValoracionPreguntaController@getTop',
+    'as' => 'top',
+    'middleware' => 'auth'
+]);
 Route::get('/prueba', function () {
-    $respuesta = \App\Respuesta::find(1);
-    echo $respuesta->usuario->nombre;
 });

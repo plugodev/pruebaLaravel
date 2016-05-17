@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 
 use App\Http\Requests;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class ValoracionPreguntaController extends Controller
 {
@@ -35,5 +36,17 @@ class ValoracionPreguntaController extends Controller
         $valoracion->valoracion=$request["valoracion"];
         $valoracion->save();
         return redirect()->back()->with(['mensaje'=>'Valoración exitosa!', 'type'=>'success']);
+    }
+
+    public function getTop()
+    {
+        $top = DB::table('valoracion_preguntas')
+            ->join('preguntas', 'preguntas.id', '=', 'valoracion_preguntas.pregunta_id')
+            ->join('usuarios', 'usuarios.id', '=', 'preguntas.usuario_id')
+            ->select('usuarios.nombre', 'usuarios.apellido', 'usuarios.id', DB::raw('sum(valoracion_preguntas.valoracion) as total_estrellas'))
+            ->groupBy('preguntas.usuario_id')
+            ->take(5)
+            ->get();
+        return view('top')->with(['top'=>$top]);
     }
 }

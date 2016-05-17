@@ -81,8 +81,30 @@
                                 Asignatura: {{$pregunta->asignatura->nombre}}
                             </div>
                             <div class="interaccion">
+                                {{--*/ $valoracion_usuario = 0 /*--}}
+                                @foreach($pregunta->valoraciones as $valoracion)
+                                    @if($valoracion->usuario_id==Auth::user()->id)
+                                        {{--*/ $valoracion_usuario = $valoracion->valoracion /*--}}
+                                    @endif
+                                @endforeach
                                 @if(in_array($pregunta->asignatura->nombre, $usuario_monitor))
-                                    <a href="#" class="valorar" data-id="{{$pregunta->id}}"><i class="fa fa-star-o fa-lg" aria-hidden="true"></i></a>
+                                    <a href="#" @if (!$valoracion_usuario and $pregunta->usuario_id != Auth::user()->id) class="valorar" @endif @if($valoracion_usuario) class="valorar_lista" @endif @if($pregunta->usuario_id == Auth::user()->id) class="valorar_propia" @endif data-id="{{$pregunta->id}}">
+                                        @if ($valoracion_usuario)
+                                            @for($i=0;$i<5;$i++)
+                                                @if($i<$valoracion_usuario)
+                                                    <i class="fa fa-star fa-lg" aria-hidden="true"></i>
+                                                @else
+                                                    <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                                @endif
+                                            @endfor
+                                        @else
+                                            <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                            <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
+                                        @endif
+                                    </a>
                                 @endif
                             </div>
                             <div class="respuestas">
@@ -141,7 +163,7 @@
                         <input type="hidden" id="_token" name="_token" value="{{csrf_token()}}">
                         <input type="hidden" id="pregunta_id" name="pregunta_id" value="{{csrf_token()}}">
                         <div id="estrellas" style="text-align: center;">
-
+                            <i class="fa fa-star-o fa-lg" aria-hidden="true"></i>
                         </div>
                 </div>
                 <div class="modal-footer">
