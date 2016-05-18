@@ -14,10 +14,14 @@ class CreateUsuarioAsignaturasTable extends Migration
     {
         Schema::create('usuario_asignaturas', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('usuario_id');
+            $table->integer('usuario_id')->nullable()->unsigned();
             $table->integer('asignatura_id');
             $table->timestamps();
         });
+        Schema::table('usuario_asignaturas', function(Blueprint $table){
+            $table->foreign('usuario_id')->references('id')->on('usuarios');
+        });
+
     }
 
     /**

@@ -18,10 +18,15 @@ class CreateUsuariosTable extends Migration
             $table->string('nombre');
             $table->string('apellido');
             $table->string('password');
-            $table->integer('tipo_usuario_id');
+            $table->integer('tipo_usuario_id')->nullable()->unsigned();
             $table->rememberToken();
             $table->timestamps();
         });
+        Schema::table('usuarios', function(Blueprint $table){
+            $table->foreign('tipo_usuario_id')->references('id')->on('tipo_usuarios');
+        });
+
+
     }
 
     /**
